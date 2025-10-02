@@ -2,7 +2,7 @@
 <resources>
     <string name="about_title_privacy_statement">"Protection de la vie privée"</string>
     <string name="no_camera_permission_warning_title">"Permission d’accès à la caméra"</string>
-    <string name="no_camera_permission_warning">"La permission est nécessaire pour prendre des photos et mesurer les distances en réalité augmentée."</string>
+    <string name="no_camera_permission_warning">"L’autorisation est requise pour mesurer des distances avec l’appareil photo."</string>
     <string name="ar_core_error_sdk_too_old">"Cette application est trop ancienne, essayez de la mettre à jour."</string>
     <string name="ar_core_tracking_error_bad_state">"Quelque chose s’est mal passé. Essayez de redémarrer la mesure."</string>
     <string name="ar_core_tracking_error_insufficient_light">"Il fait trop sombre ici"</string>

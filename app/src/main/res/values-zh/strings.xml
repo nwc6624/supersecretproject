@@ -10,12 +10,12 @@
     <string name="ar_core_tracking_error_insufficient_features">"这里缺少足够的视觉特征"</string>
     <string name="ar_core_tracking_error_camera_unavailable">"相机已被其它应用所使用"</string>
     <string name="ar_core_tracking_error_too_steep_angle">"角度太陡了，走远一点"</string>
-    <string name="ar_core_tracking_error_no_plane_hit">"靠近箭头处，但要注意车流！"</string>
+    <string name="ar_core_tracking_error_no_plane_hit">"请靠近箭头指示的位置，但注意交通安全！"</string>
     <string name="no_camera_permission_toast">"不可进行拍摄"</string>
     <string name="ar_core_tracking_hint_tap_to_measure">"点击屏幕以开始测量"</string>
     <string name="measure_info_title">"实现最佳精确度"</string>
-    <string name="measure_info_html_description">"&lt;p&gt;ARCore有时（最初）会假定地面比实际情况稍低或稍高。这就引入了一个测量误差，当你把手机向地平线倾斜得越多，误差就越大。&lt;/p&gt;
-&lt;p&gt;设置每个起点和终点，同时将手机直直地指向下方（以便您从上方看到白色箭头），以完全避免水平测量中的该问题。&lt;/p&gt;
-&lt;p&gt;对于垂直测量，您需要通过从不同方向观察来检查起点是否与地面有关联。&lt;/p&gt;"</string>
+    <string name="measure_info_html_description">"&lt;p&gt;ARCore 有时会（最初）假设地面比实际高度略低或略高。这会导致测量误差，并且手机越向地平线倾斜，误差就越大。&lt;/p&gt;
+&lt;p&gt;将手机垂直向下（以便您从上方看到白色箭头）设置起点和终点，以完全避免水平测量中出现此问题。&lt;/p&gt;
+&lt;p&gt;对于垂直测量，您需要通过从不同方向观察来检查起点相对于地面是否移动。&lt;/p&gt;"</string>
     <string name="privacy_html_arcore">"此应用程序在&lt;a href=\"https://play.google.com/store/apps/details?id=com.google.ar.core\"&gt;Google Play Services for AR&lt;/a&gt; (ARCore)上运行，该服务由Google提供，并受&lt;a href=\"https://policies.google.com/privacy\"&gt;Google隐私政策&lt;/a&gt;的约束。"</string>
 </resources>

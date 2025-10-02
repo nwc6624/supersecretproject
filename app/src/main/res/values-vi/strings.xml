@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title_privacy_statement">"Tuyên bố về quyền riêng tư"</string>
+    <string name="no_camera_permission_warning_title">"Quyền truy cập camera"</string>
+    <string name="no_camera_permission_warning">"Quyền này được yêu cầu để có thể đo khoảng cách với camera."</string>
+    <string name="ar_core_error_sdk_too_old">"Ứng dụng này đã quá cũ, thử cập nhật."</string>
+    <string name="ar_core_tracking_error_bad_state">"Lỗi đã xảy ra. Thử làm lại quá trình đo đạc."</string>
+    <string name="ar_core_tracking_error_insufficient_light">"Quá tối ở đây"</string>
+    <string name="ar_core_tracking_error_excessive_motion">"Quá nhiều di chuyển"</string>
+    <string name="ar_core_tracking_error_insufficient_features">"Tính năng trực quan ở đây chưa đủ"</string>
+    <string name="ar_core_tracking_error_camera_unavailable">"Camera được sử dụng bởi một ứng dụng khác"</string>
+    <string name="ar_core_tracking_error_too_steep_angle">"Góc quá dốc, hãy bước ra xa một chút"</string>
+    <string name="ar_core_tracking_error_no_plane_hit">"Đi gần mũi tên hơn nhưng chú ý đến xe cộ!"</string>
+    <string name="no_camera_permission_toast">"Không quyền truy cập camera"</string>
+    <string name="ar_core_tracking_hint_tap_to_measure">"Chạm vào màn hình để bắt đầu đo"</string>
+    <string name="measure_info_title">"Đạt được độ chính xác tối ưu"</string>
+    <string name="measure_info_html_description">"&lt;p&gt;ARCore đôi khi (ban đầu) cho rằng mặt đất thấp hơn hoặc cao hơn một chút so với thực tế. Điều này dẫn đến lỗi đo lường càng lớn khi bạn nghiêng điện thoại về phía đường chân trời.&lt;/p&gt;
+&lt;p&gt;Đặt điểm bắt đầu và điểm kết thúc trong khi hướng điện thoại thẳng xuống (để bạn nhìn thấy mũi tên màu trắng từ trên xuống) để tránh hoàn toàn sự cố này đối với các phép đo theo chiều ngang.&lt;/p&gt;
+&lt;p&gt;Đối với các phép đo theo chiều dọc, thay vào đó, bạn cần kiểm tra xem điểm bắt đầu có vẻ như không di chuyển so với mặt đất khi nhìn từ các hướng khác nhau không.&lt;/p&gt;"</string>
+    <string name="privacy_html_arcore">"Ứng dụng này chạy trên &lt;a href=\"https://play.google.com/store/apps/details?id=com.google.ar.core\"&gt;Dịch vụ Google Play dành cho AR&lt;/a&gt; (ARCore), do Google cung cấp và được quản lý bởi &lt;a href=\"https://policies.google.com/privacy\"&gt;Chính sách quyền riêng tư của Google&lt;/a&gt;."</string>
+</resources>

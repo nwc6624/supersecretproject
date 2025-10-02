@@ -74,7 +74,7 @@ dependencies {
 
 tasks.register<UpdateAppTranslationsTask>("updateTranslations") {
     group = "streetmeasure"
-    apiToken = properties["POEditorAPIToken"] as String
+    apiToken = properties["app.streetcomplete.POEditorAPIToken"] as String
     projectId = "97843"
     targetFiles = { "$projectDir/src/main/res/values${if (it.isNotEmpty()) "-$it" else ""}/strings.xml" }
     strings = setOf(
