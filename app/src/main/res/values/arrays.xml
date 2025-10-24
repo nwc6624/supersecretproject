@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme Mode -->
+    <string-array name="theme_mode_entries">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Follow System</item>
+    </string-array>
+    
+    <string-array name="theme_mode_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>system</item>
+    </string-array>
+    
+    <!-- Units -->
+    <string-array name="units_entries">
+        <item>Feet / Inches</item>
+        <item>Meters / Centimeters</item>
+    </string-array>
+    
+    <string-array name="units_values">
+        <item>imperial</item>
+        <item>metric</item>
+    </string-array>
+    
+    <!-- Precision -->
+    <string-array name="precision_entries">
+        <item>1 decimal place</item>
+        <item>2 decimal places</item>
+        <item>3 decimal places</item>
+    </string-array>
+    
+    <string-array name="precision_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    
+    <!-- Marker Colors -->
+    <string-array name="marker_color_entries">
+        <item>Yellow</item>
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Green</item>
+    </string-array>
+    
+    <string-array name="marker_color_values">
+        <item>yellow</item>
+        <item>red</item>
+        <item>blue</item>
+        <item>green</item>
+    </string-array>
+    
+    <!-- Outline Colors -->
+    <string-array name="outline_color_entries">
+        <item>Orange</item>
+        <item>Cyan</item>
+        <item>Lime</item>
+        <item>White</item>
+    </string-array>
+    
+    <string-array name="outline_color_values">
+        <item>orange</item>
+        <item>cyan</item>
+        <item>lime</item>
+        <item>white</item>
+    </string-array>
+</resources>

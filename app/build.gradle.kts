@@ -12,7 +12,10 @@ android {
             keyAlias = properties["streetmeasureKeyAlias"] as String?
             storePassword = properties["streetmeasureStorePassword"] as String?
             keyPassword = properties["streetmeasureKeyPassword"] as String?
-            storeFile = file(properties["streetmeasureStoreFile"] as String)
+            val storeFileProperty = properties["streetmeasureStoreFile"] as String?
+            if (storeFileProperty != null) {
+                storeFile = file(storeFileProperty)
+            }
         }
     }
 
@@ -39,12 +42,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "21"
+        jvmTarget = "17"
     }
 
     // for reproducible builds - see https://github.com/streetcomplete/StreetMeasure/issues/15
@@ -62,6 +65,7 @@ dependencies {
     implementation("com.google.android.material:material:1.13.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.4")
+    implementation("androidx.preference:preference-ktx:1.2.1")
     // coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinxCoroutinesVersion")

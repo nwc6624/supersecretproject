@@ -6,11 +6,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:background="#666">
 
+    <!-- AR Scene View -->
     <FrameLayout
         android:id="@+id/arSceneViewContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <!-- Hand Motion View -->
     <de.westnordost.streetmeasure.HandMotionView
         android:id="@+id/handMotionView"
         android:layout_width="match_parent"
@@ -19,171 +21,137 @@
         android:clickable="false"
         android:focusable="false"/>
 
+    <!-- Top instruction label -->
+    <TextView
+        android:id="@+id/instructionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/ar_tracking_error_background"
+        android:padding="16dp"
+        android:text="Tap each corner to outline the area"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        tools:visibility="visible" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
-        <FrameLayout
-            android:id="@+id/unitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_white_button"
-            android:elevation="4dp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
-
-            <ImageView
-                android:id="@+id/unitButtonImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_foot_24" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/directionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_white_button"
-            android:elevation="4dp"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@+id/unitButton"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
-
-            <ImageView
-                android:id="@+id/directionButtonImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_horizontal_24" />
-
-        </FrameLayout>
+    <!-- Floating area bubble (positioned dynamically) -->
+    <FrameLayout
+        android:id="@+id/areaBubbleContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <FrameLayout
-            android:id="@+id/flashButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_white_button"
-            android:elevation="4dp"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@+id/directionButton"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
-
-            <ImageView
-                android:id="@+id/flashButtonImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_flashlight_off_24" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/infoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_white_button"
-            android:elevation="4dp"
-            android:src="@drawable/ic_info_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_info_24" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/measurementSpeechBubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/speech_bubble_bottom_center"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.15"
-            tools:visibility="visible">
+            android:padding="12dp">
 
             <TextView
-                android:id="@+id/measurementTextView"
+                android:id="@+id/areaTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:minWidth="180dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:textColor="#000"
-                android:textSize="40dp"
-                tools:ignore="SpUsage"
-                tools:text="99.99 m" />
+                android:text="Area: -- sq ft"
+                android:textColor="#2D5A4A"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Area: 12.5 sq ft" />
 
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/tracking_message_text_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="64dp"
-            android:layout_marginLeft="64dp"
-            android:layout_marginRight="64dp"
-            android:background="@drawable/ar_tracking_error_background"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textColor="#fff"
+    </FrameLayout>
+
+    <!-- Bottom control row -->
+    <LinearLayout
+        android:id="@+id/bottomControlsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="32dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <!-- Back Arrow button -->
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/round_white_button"
+            android:elevation="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_start_over_48"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/acceptResultContainer"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:text="@string/ar_core_tracking_error_no_plane_hit"
+            app:tint="#2D5A4A"
             tools:visibility="visible" />
 
-        <RelativeLayout
-            android:id="@+id/acceptResultContainer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="#6000"
+        <!-- Undo button -->
+        <ImageView
+            android:id="@+id/undoButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/round_white_button"
+            android:elevation="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_start_over_48"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_max="128dp"
-            app:layout_constraintHeight_min="56dp"
-            app:layout_constraintHeight_percent="0.1"
-            tools:visibility="visible">
+            app:tint="#2D5A4A"
+            tools:visibility="visible" />
 
-            <ImageView
-                android:id="@+id/startOverButton"
-                android:layout_width="160dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_start_over_48"
-                app:tint="#fff"
-                tools:ignore="RtlHardcoded" />
+        <!-- Check/Confirm button -->
+        <ImageView
+            android:id="@+id/confirmButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/round_white_button"
+            android:elevation="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_check_48"
+            android:visibility="gone"
+            app:tint="#2D5A4A"
+            tools:visibility="visible" />
 
-            <ImageView
-                android:id="@+id/acceptButton"
-                android:layout_width="160dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_check_48"
-                app:tint="#fff"
-                tools:ignore="RtlHardcoded" />
+    </LinearLayout>
 
-        </RelativeLayout>
+    <!-- Bottom instruction text -->
+    <TextView
+        android:id="@+id/bottomInstructionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="120dp"
+        android:background="@drawable/ar_tracking_error_background"
+        android:padding="12dp"
+        android:text="Tap to add point to polygon"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        tools:visibility="visible" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- AR tracking error message -->
+    <TextView
+        android:id="@+id/tracking_message_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="64dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/ar_tracking_error_background"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textColor="#fff"
+        android:visibility="gone"
+        tools:text="@string/ar_core_tracking_error_no_plane_hit"
+        tools:visibility="visible" />
 
 </RelativeLayout>

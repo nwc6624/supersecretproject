@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:gravity="center">
+
+    <!-- TODO: replace with proper logo / icon later -->
+    <!-- Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Measurement Saved"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Surface Area Label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Surface Area"
+        android:textSize="18sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Big Bold Area in Square Feet -->
+    <TextView
+        android:id="@+id/tvAreaSqFeet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="XX.X ft²"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Small Area in Square Meters -->
+    <TextView
+        android:id="@+id/tvAreaSqMeters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(YY.Y m²)"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="48dp" />
+
+    <!-- Use in Tile Calculator Button -->
+    <Button
+        android:id="@+id/goToCalculatorButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Use in Tile Calculator"
+        android:textSize="18sp"
+        android:textColor="@color/tv_primaryText"
+        android:background="@color/tv_primary"
+        android:layout_marginBottom="16dp"
+        android:padding="16dp" />
+
+    <!-- Done Button -->
+    <Button
+        android:id="@+id/btnDone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:textSize="18sp"
+        android:textColor="@color/tv_primaryText"
+        android:background="@color/tv_primary"
+        android:padding="16dp" />
+
+</LinearLayout>

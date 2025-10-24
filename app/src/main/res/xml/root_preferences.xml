@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- DISPLAY CATEGORY -->
+    <PreferenceCategory app:title="Display">
+
+        <ListPreference
+            app:key="pref_theme_mode"
+            app:title="Theme Mode"
+            app:entries="@array/theme_mode_entries"
+            app:entryValues="@array/theme_mode_values"
+            app:defaultValue="system"
+            app:summary="Follow System" />
+
+        <ListPreference
+            app:key="pref_units"
+            app:title="Units"
+            app:entries="@array/units_entries"
+            app:entryValues="@array/units_values"
+            app:defaultValue="imperial"
+            app:summary="Feet / Inches" />
+
+        <ListPreference
+            app:key="pref_precision"
+            app:title="Area Precision"
+            app:entries="@array/precision_entries"
+            app:entryValues="@array/precision_values"
+            app:defaultValue="2"
+            app:summary="2 decimal places" />
+
+    </PreferenceCategory>
+
+    <!-- AR OPTIONS CATEGORY -->
+    <PreferenceCategory app:title="AR View">
+
+        <ListPreference
+            app:key="pref_marker_color"
+            app:title="Marker Color"
+            app:entries="@array/marker_color_entries"
+            app:entryValues="@array/marker_color_values"
+            app:defaultValue="yellow"
+            app:summary="Yellow" />
+
+        <ListPreference
+            app:key="pref_outline_color"
+            app:title="Outline Color"
+            app:entries="@array/outline_color_entries"
+            app:entryValues="@array/outline_color_values"
+            app:defaultValue="orange"
+            app:summary="Orange" />
+
+        <SwitchPreferenceCompat
+            app:key="pref_show_grid"
+            app:title="Show AR Grid Overlay"
+            app:summary="Display a visual grid on detected surfaces"
+            app:defaultValue="true" />
+
+        <SwitchPreferenceCompat
+            app:key="pref_show_labels"
+            app:title="Show Measurement Labels"
+            app:summary="Display live area and dimension labels in AR view"
+            app:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <!-- TILE CALCULATOR CATEGORY -->
+    <PreferenceCategory app:title="Tile Calculator Defaults">
+
+        <EditTextPreference
+            app:key="pref_tile_length"
+            app:title="Default Tile Length"
+            app:dialogTitle="Default Tile Length"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="" />
+
+        <EditTextPreference
+            app:key="pref_tile_width"
+            app:title="Default Tile Width"
+            app:dialogTitle="Default Tile Width"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="" />
+
+        <SwitchPreferenceCompat
+            app:key="pref_include_grout"
+            app:title="Include Grout Gap"
+            app:summary="Add grout spacing into tile count estimates"
+            app:defaultValue="true" />
+
+        <SwitchPreferenceCompat
+            app:key="pref_round_up"
+            app:title="Round Tile Count Up"
+            app:summary="Always round material estimates up to the next full tile"
+            app:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <!-- DATA & ABOUT CATEGORY -->
+    <PreferenceCategory app:title="Data &amp; About">
+
+        <Preference
+            app:key="pref_clear_history"
+            app:title="Clear Saved Measurements"
+            app:summary="Delete all saved measurement history from this device" />
+
+        <Preference
+            app:key="pref_export_history"
+            app:title="Export Measurements"
+            app:summary="Export saved measurements as CSV" />
+
+        <Preference
+            app:key="pref_reset"
+            app:title="Reset to Defaults"
+            app:summary="Restore all app settings to their default values" />
+
+        <Preference
+            app:key="pref_about"
+            app:title="About TileVision"
+            app:summary="Version, support, and credits" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
