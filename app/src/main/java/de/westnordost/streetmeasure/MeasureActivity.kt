@@ -640,10 +640,9 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
         resultIntent.putExtra(RESULT_VERTICES_COUNT, vertices.size)
         
         vertices.forEachIndexed { index, pose ->
-            val translation = pose.translation
-            resultIntent.putExtra("${RESULT_VERTEX_PREFIX}${index}_x", translation[0])
-            resultIntent.putExtra("${RESULT_VERTEX_PREFIX}${index}_y", translation[1])
-            resultIntent.putExtra("${RESULT_VERTEX_PREFIX}${index}_z", translation[2])
+            resultIntent.putExtra("${RESULT_VERTEX_PREFIX}${index}_x", pose.tx())
+            resultIntent.putExtra("${RESULT_VERTEX_PREFIX}${index}_y", pose.ty())
+            resultIntent.putExtra("${RESULT_VERTEX_PREFIX}${index}_z", pose.tz())
         }
     }
 
