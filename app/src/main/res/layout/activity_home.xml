@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- TODO: replace with proper logo / icon later -->
+        <!-- App Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TileVision"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Tagline -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AR surface measurement + tile estimator. For remodels, countertops, showers, and floors."
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Start Measurement Button -->
+        <Button
+            android:id="@+id/btnStartMeasurement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start Measurement"
+            android:textSize="18sp"
+            android:textColor="@color/tv_primaryText"
+            android:background="@color/tv_primary"
+            android:layout_marginBottom="16dp"
+            android:padding="16dp" />
+
+        <!-- Open Tile Calculator Button -->
+        <Button
+            android:id="@+id/openCalculatorButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Open Tile Calculator"
+            android:textSize="18sp"
+            android:textColor="@color/tv_primaryText"
+            android:background="@color/tv_primary"
+            android:layout_marginBottom="32dp"
+            android:padding="16dp" />
+
+        <!-- Recent Measurements Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recent Measurements"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Recent Measurements Container -->
+        <LinearLayout
+            android:id="@+id/recentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+
+</ScrollView>

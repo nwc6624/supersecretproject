@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">TileVision</string>
     <string name="about_title_privacy_statement">"Privacy"</string>
     <string name="no_camera_permission_warning_title">"Camera permission"</string>
     <string name="no_camera_permission_warning">"The permission is required to measure distances with the camera."</string>

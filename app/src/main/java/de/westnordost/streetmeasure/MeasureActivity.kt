@@ -228,6 +228,12 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
         measuringTapeColor = if (measuringTapeColorInt == -1) {
             android.graphics.Color.argb(255, 209, 64, 0)
         } else measuringTapeColorInt
+
+        // Force surface area mode if requested
+        val forceSurfaceMode = intent.getBooleanExtra(EXTRA_FORCE_SURFACE_MODE, false)
+        if (forceSurfaceMode) {
+            mode = MeasurementMode.SURFACE_AREA
+        }
     }
 
     /* ---------------------------------------- Buttons ----------------------------------------- */
@@ -610,6 +616,15 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
             MeasurementMode.SURFACE_AREA -> {
                 // New polygon area measurement behavior
                 finishPolygonResult(resultIntent)
+                
+                // TileVision: After measuring, we jump to ResultSummaryActivity for review and calculator handoff.
+                val areaSqFeet = polygonState.areaSqFeet()
+                val areaSqMeters = polygonState.areaSqMeters()
+                val summaryIntent = Intent(this, ResultSummaryActivity::class.java).apply {
+                    putExtra(ResultSummaryActivity.EXTRA_AREA_SQ_FEET, areaSqFeet)
+                    putExtra(ResultSummaryActivity.EXTRA_AREA_SQ_METERS, areaSqMeters)
+                }
+                startActivity(summaryIntent)
             }
         }
         
@@ -625,6 +640,16 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
         
         val resultIntent = Intent(RESULT_ACTION)
         finishPolygonResult(resultIntent)
+        
+        // TileVision: After measuring, we jump to ResultSummaryActivity for review and calculator handoff.
+        val areaSqFeet = polygonState.areaSqFeet()
+        val areaSqMeters = polygonState.areaSqMeters()
+        val summaryIntent = Intent(this, ResultSummaryActivity::class.java).apply {
+            putExtra(ResultSummaryActivity.EXTRA_AREA_SQ_FEET, areaSqFeet)
+            putExtra(ResultSummaryActivity.EXTRA_AREA_SQ_METERS, areaSqMeters)
+        }
+        startActivity(summaryIntent)
+        
         setResult(RESULT_OK, resultIntent)
         finish()
     }
@@ -969,6 +994,11 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
         /** Int. Color value of the measuring tape. Default is orange.
          */
         const val PARAM_MEASURING_TAPE_COLOR = "measuring_tape_color"
+
+        /** Boolean. Force the activity to start in surface area mode instead of distance mode.
+         *  Default is false (uses default mode).
+         */
+        const val EXTRA_FORCE_SURFACE_MODE = "force_surface_mode"
 
         /* ----------------------------------- Intent Result ------------------------------------ */
 

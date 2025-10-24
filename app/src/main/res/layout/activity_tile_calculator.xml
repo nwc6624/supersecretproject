@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tile Calculator"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Section: Measured Area -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Measured Area"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Measured Area (ft²):"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/measuredAreaText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0.0 ft²"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:background="@drawable/round_white_button"
+        android:padding="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/manualAreaInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Or enter area manually (ft²)"
+        android:inputType="numberDecimal"
+        android:background="@drawable/round_white_button"
+        android:padding="16dp"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Section: Tile Size -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tile Size"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tile Size (inches)"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp">
+
+        <EditText
+            android:id="@+id/tileWidthInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Width (in)"
+            android:inputType="numberDecimal"
+            android:background="@drawable/round_white_button"
+            android:padding="16dp"
+            android:layout_marginEnd="8dp" />
+
+        <EditText
+            android:id="@+id/tileHeightInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Height (in)"
+            android:inputType="numberDecimal"
+            android:background="@drawable/round_white_button"
+            android:padding="16dp"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+    <!-- Section: Waste / Breakage -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Waste / Breakage"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Waste allowance (%)"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/wasteInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="10"
+        android:text="10"
+        android:inputType="numberDecimal"
+        android:background="@drawable/round_white_button"
+        android:padding="16dp"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Section: Box Coverage -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Box Coverage"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Coverage per box (ft²)"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/boxCoverageInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="15.0"
+        android:inputType="numberDecimal"
+        android:background="@drawable/round_white_button"
+        android:padding="16dp"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Calculate Button -->
+    <Button
+        android:id="@+id/calcButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calculate"
+        android:textSize="18sp"
+        android:textColor="@color/tv_primaryText"
+        android:background="@color/tv_primary"
+        android:padding="16dp"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Result Card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/round_white_button"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tilesNeededText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tiles Needed: --"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/boxesNeededText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Boxes Needed: --"
+            android:textSize="16sp"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
+
+</LinearLayout>

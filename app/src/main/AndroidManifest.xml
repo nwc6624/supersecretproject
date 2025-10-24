@@ -22,15 +22,31 @@
         tools:targetApi="33">
         <meta-data android:name="com.google.ar.core" android:value="required" />
         <activity
+            android:name="de.westnordost.streetmeasure.HomeActivity"
+            android:label="@string/app_name"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
             android:name="de.westnordost.streetmeasure.MeasureActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:exported="true"
             tools:ignore="LockedOrientationActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="de.westnordost.streetmeasure.ResultSummaryActivity"
+            android:exported="false">
+        </activity>
+        
+        <activity
+            android:name="de.westnordost.streetmeasure.TileCalculatorActivity"
+            android:exported="false">
         </activity>
 
     </application>
