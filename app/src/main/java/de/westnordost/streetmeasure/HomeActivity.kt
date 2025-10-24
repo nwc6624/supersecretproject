@@ -42,6 +42,10 @@ class HomeActivity : AppCompatActivity() {
             startMeasurement()
         }
         
+        findViewById<Button>(R.id.buttonMeasureTileSample).setOnClickListener {
+            // TODO: launch a (future) TileSampleMeasureActivity where the user measures one tile or a sample piece
+        }
+        
         findViewById<Button>(R.id.openCalculatorButton).setOnClickListener {
             val intent = Intent(this, TileCalculatorActivity::class.java)
             // do NOT put area extra here, user will type manually

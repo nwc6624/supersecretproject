@@ -52,12 +52,24 @@
             android:gravity="center"
             android:layout_marginBottom="32dp" />
 
-        <!-- Start Measurement Button -->
+        <!-- Measure Project Area Button -->
         <Button
             android:id="@+id/btnStartMeasurement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Start Measurement"
+            android:text="Measure Project Area"
+            android:textSize="18sp"
+            android:textColor="@color/tv_primaryText"
+            android:background="@color/tv_primary"
+            android:layout_marginBottom="16dp"
+            android:padding="16dp" />
+
+        <!-- Measure Tile Sample Button -->
+        <Button
+            android:id="@+id/buttonMeasureTileSample"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Measure Tile Sample"
             android:textSize="18sp"
             android:textColor="@color/tv_primaryText"
             android:background="@color/tv_primary"
