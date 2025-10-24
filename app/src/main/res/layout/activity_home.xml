@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/tv_background"
     android:padding="24dp">
 
     <LinearLayout
@@ -23,7 +24,7 @@
                 android:text="TileVision"
                 android:textSize="32sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"
+                android:textColor="@color/tv_text_primary"
                 android:gravity="center" />
 
             <!-- Settings Button -->
@@ -37,7 +38,7 @@
                 android:padding="12dp"
                 android:src="@drawable/ic_settings_24"
                 android:contentDescription="Settings"
-                app:tint="@android:color/darker_gray" />
+                app:tint="@color/tv_text_secondary" />
 
         </RelativeLayout>
 
@@ -47,7 +48,7 @@
             android:layout_height="wrap_content"
             android:text="AR surface measurement + tile estimator. For remodels, countertops, showers, and floors."
             android:textSize="16sp"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/tv_text_secondary"
             android:gravity="center"
             android:layout_marginBottom="32dp" />
 
@@ -82,7 +83,7 @@
             android:text="Recent Measurements"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
+            android:textColor="@color/tv_text_primary"
             android:layout_marginBottom="16dp" />
 
         <!-- Recent Measurements Container -->

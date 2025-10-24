@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/tv_background"
     android:padding="32dp"
     android:gravity="center">
 
@@ -14,7 +15,7 @@
         android:text="Measurement Saved"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:textColor="@color/tv_text_primary"
         android:layout_marginBottom="24dp" />
 
     <!-- Surface Area Label -->
@@ -23,7 +24,7 @@
         android:layout_height="wrap_content"
         android:text="Surface Area"
         android:textSize="18sp"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/tv_text_secondary"
         android:layout_marginBottom="16dp" />
 
     <!-- Big Bold Area in Square Feet -->
@@ -34,7 +35,7 @@
         android:text="XX.X ft²"
         android:textSize="48sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:textColor="@color/tv_text_primary"
         android:layout_marginBottom="8dp" />
 
     <!-- Small Area in Square Meters -->
@@ -44,7 +45,7 @@
         android:layout_height="wrap_content"
         android:text="(YY.Y m²)"
         android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/tv_text_secondary"
         android:layout_marginBottom="48dp" />
 
     <!-- Use in Tile Calculator Button -->

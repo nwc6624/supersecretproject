@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark Theme Colors -->
+    <color name="tv_primary">#4A7C6B</color> <!-- Lighter teal for dark mode -->
+    <color name="tv_primaryText">#E0E0E0</color> <!-- Light gray text for dark mode -->
+    
+    <!-- Dark theme background and surface colors -->
+    <color name="tv_background">#121212</color> <!-- Dark background -->
+    <color name="tv_surface">#1E1E1E</color> <!-- Dark surface -->
+    <color name="tv_text_primary">#FFFFFF</color> <!-- Primary text in dark mode -->
+    <color name="tv_text_secondary">#B3B3B3</color> <!-- Secondary text in dark mode -->
+    <color name="tv_text_hint">#666666</color> <!-- Hint text in dark mode -->
+    
+    <!-- Standard colors for dark mode -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

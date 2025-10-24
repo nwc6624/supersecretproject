@@ -70,7 +70,7 @@ class HomeActivity : AppCompatActivity() {
             val emptyText = TextView(this).apply {
                 text = "No recent measurements"
                 textSize = 16f
-                setTextColor(resources.getColor(android.R.color.darker_gray, null))
+                setTextColor(resources.getColor(R.color.tv_text_secondary, null))
                 setPadding(0, 16, 0, 16)
             }
             recentContainer.addView(emptyText)
@@ -80,7 +80,7 @@ class HomeActivity : AppCompatActivity() {
                 val measurementText = TextView(this).apply {
                     text = formatMeasurement(measurement)
                     textSize = 16f
-                    setTextColor(resources.getColor(android.R.color.black, null))
+                    setTextColor(resources.getColor(R.color.tv_text_primary, null))
                     setPadding(0, 8, 0, 8)
                 }
                 recentContainer.addView(measurementText)

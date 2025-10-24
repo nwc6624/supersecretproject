@@ -4,6 +4,13 @@
     <color name="tv_primary">#2D5A4A</color> <!-- Deep teal for tile/construction vibe -->
     <color name="tv_primaryText">#F5F5F5</color> <!-- Near-white text -->
     
+    <!-- Light theme background and surface colors -->
+    <color name="tv_background">#FFFFFF</color> <!-- Light background -->
+    <color name="tv_surface">#F5F5F5</color> <!-- Light surface -->
+    <color name="tv_text_primary">#212121</color> <!-- Primary text in light mode -->
+    <color name="tv_text_secondary">#757575</color> <!-- Secondary text in light mode -->
+    <color name="tv_text_hint">#BDBDBD</color> <!-- Hint text in light mode -->
+    
     <!-- Standard colors -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
