@@ -83,6 +83,23 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/modeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_white_button"
+            android:elevation="4dp"
+            app:layout_constraintStart_toEndOf="@+id/flashButton"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/modeButtonImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_meter_24" />
+
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/infoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -183,6 +200,67 @@
                 tools:ignore="RtlHardcoded" />
 
         </RelativeLayout>
+
+        <!-- Polygon mode controls -->
+        <LinearLayout
+            android:id="@+id/polygonControlsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/measurementSpeechBubble"
+            app:layout_constraintVertical_bias="0.8"
+            tools:visibility="visible">
+
+            <FrameLayout
+                android:id="@+id/undoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/round_white_button"
+                android:elevation="4dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_down_white_96"
+                    android:rotation="90" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/clearPolygonButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/round_white_button"
+                android:elevation="4dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_start_over_48" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/finishPolygonButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_white_button"
+                android:elevation="4dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_check_48" />
+
+            </FrameLayout>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -11,6 +11,13 @@ sealed interface Length
 data class LengthInMeters(val meters: Double) : Length
 data class LengthInFeetAndInches(val feet: Int, val inches: Int) : Length
 
+// New result type for polygon surface area measurements
+data class PolygonArea(
+    val areaSqMeters: Float,
+    val areaSqFeet: Float,
+    val verticesWorld: List<FloatArray> // List of {x,y,z} coordinates
+) : Length
+
 enum class LengthUnit { METER, FOOT_AND_INCH }
 
 class MeasureContract : ActivityResultContract<MeasureContract.Params, Length?>() {
@@ -64,6 +71,26 @@ class MeasureContract : ActivityResultContract<MeasureContract.Params, Length?>(
     override fun parseResult(resultCode: Int, intent: Intent?): Length? {
         if (resultCode != Activity.RESULT_OK) return null
 
+        // Check for polygon area result first
+        val resultType = intent?.getStringExtra("result_type")
+        if (resultType == "polygon") {
+            val areaSqMeters = intent.getFloatExtra("area_sq_meters", -1f)
+            val areaSqFeet = intent.getFloatExtra("area_sq_feet", -1f)
+            val verticesCount = intent.getIntExtra("vertices_count", 0)
+            
+            if (areaSqMeters >= 0 && areaSqFeet >= 0 && verticesCount > 0) {
+                val verticesWorld = mutableListOf<FloatArray>()
+                for (i in 0 until verticesCount) {
+                    val x = intent.getFloatExtra("vertex_${i}_x", 0f)
+                    val y = intent.getFloatExtra("vertex_${i}_y", 0f)
+                    val z = intent.getFloatExtra("vertex_${i}_z", 0f)
+                    verticesWorld.add(floatArrayOf(x, y, z))
+                }
+                return PolygonArea(areaSqMeters, areaSqFeet, verticesWorld)
+            }
+        }
+
+        // Fall back to existing distance measurement results
         val meters = intent?.getDoubleExtra("meters", -1.0)?.takeIf { it != -1.0 }
         if (meters != null) return LengthInMeters(meters)
 

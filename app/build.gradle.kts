@@ -9,10 +9,17 @@ android {
 
     signingConfigs {
         create("release") {
-            keyAlias = properties["streetmeasureKeyAlias"] as String?
-            storePassword = properties["streetmeasureStorePassword"] as String?
-            keyPassword = properties["streetmeasureKeyPassword"] as String?
-            storeFile = file(properties["streetmeasureStoreFile"] as String)
+            val keyAlias = properties["streetmeasureKeyAlias"] as String?
+            val storePassword = properties["streetmeasureStorePassword"] as String?
+            val keyPassword = properties["streetmeasureKeyPassword"] as String?
+            val storeFile = properties["streetmeasureStoreFile"] as String?
+            
+            if (keyAlias != null && storePassword != null && keyPassword != null && storeFile != null) {
+                this.keyAlias = keyAlias
+                this.storePassword = storePassword
+                this.keyPassword = keyPassword
+                this.storeFile = file(storeFile)
+            }
         }
     }
 
@@ -39,12 +46,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "21"
+        jvmTarget = "17"
     }
 
     // for reproducible builds - see https://github.com/streetcomplete/StreetMeasure/issues/15

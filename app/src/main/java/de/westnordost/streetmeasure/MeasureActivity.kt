@@ -71,6 +71,12 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
     private var firstNode: AnchorNode? = null
     private var secondNode: Node? = null
     private var cursorNode: AnchorNode? = null
+    
+    // Polygon visualization nodes
+    private val polygonPointNodes = mutableListOf<AnchorNode>()
+    private val polygonLineNodes = mutableListOf<Node>()
+    private var polygonFillNode: Node? = null
+    private var polygonFillRenderable: Renderable? = null
 
     private var measureVertical: Boolean = false
     private var isFeetInch: Boolean = false
@@ -86,6 +92,10 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
     private var measureState: MeasureState = MeasureState.READY
 
     private var distance: Double = 0.0
+    
+    // New measurement mode support
+    private var mode: MeasurementMode = MeasurementMode.SURFACE_AREA
+    private val polygonState = PolygonMeasurementState()
 
     private val displayUnit: MeasureDisplayUnit get() =
         if (isFeetInch) MeasureDisplayUnitFeetInch(precisionInch)
@@ -124,11 +134,16 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
         binding.directionButton.isGone = requestResult
         binding.unitButton.isGone = isDisplayUnitFixed
         binding.flashButton.isGone = true
+        
+        // Hide direction button in surface area mode
+        updateDirectionButtonVisibility()
 
         updateDirectionButtonEnablement()
         updateDirectionButtonImage()
         updateUnitButtonImage()
         updateFlashButtonImage()
+        updateModeButtonImage()
+        updatePolygonControlsVisibility()
 
         binding.startOverButton.setOnClickListener { clearMeasuring() }
         binding.acceptButton.setOnClickListener { returnMeasuringResult() }
@@ -136,6 +151,10 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
         binding.directionButton.setOnClickListener { toggleDirection() }
         binding.unitButton.setOnClickListener { toggleUnit() }
         binding.flashButtonImage.setOnClickListener { toggleFlash() }
+        binding.modeButton.setOnClickListener { toggleMode() }
+        binding.undoButton.setOnClickListener { undoLastPoint() }
+        binding.clearPolygonButton.setOnClickListener { clearPolygon() }
+        binding.finishPolygonButton.setOnClickListener { finishPolygon() }
 
         binding.infoButton.setOnClickListener { InfoDialog(this).show() }
 
@@ -238,6 +257,40 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
         enableFlashMode(isFlashOn)
         updateFlashButtonImage()
     }
+    
+    private fun toggleMode() {
+        mode = when (mode) {
+            MeasurementMode.DISTANCE -> MeasurementMode.SURFACE_AREA
+            MeasurementMode.SURFACE_AREA -> MeasurementMode.DISTANCE
+        }
+        updateModeButtonImage()
+        updateDirectionButtonVisibility()
+        updatePolygonControlsVisibility()
+        
+        // Clear current measurement when switching modes
+        clearMeasuring()
+        polygonState.clear()
+        clearPolygonVisualization()
+        
+        // Update overlay for the new mode
+        if (mode == MeasurementMode.SURFACE_AREA) {
+            updateAreaOverlay()
+        }
+    }
+    
+    private fun undoLastPoint() {
+        if (polygonState.anchors.isNotEmpty()) {
+            val lastAnchor = polygonState.anchors.removeLastOrNull()
+            lastAnchor?.detach()
+            updatePolygonAreaDisplay()
+        }
+    }
+    
+    private fun clearPolygon() {
+        polygonState.clear()
+        clearPolygonVisualization()
+        updatePolygonAreaDisplay()
+    }
 
     private fun updateDirectionButtonEnablement() {
         binding.directionButton.isEnabled = measureState != MeasureState.MEASURING
@@ -259,6 +312,23 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
             if (isFlashOn) R.drawable.ic_flashlight_on_24
             else R.drawable.ic_flashlight_off_24
         )
+    }
+    
+    private fun updateModeButtonImage() {
+        binding.modeButtonImage.setImageResource(
+            when (mode) {
+                MeasurementMode.DISTANCE -> R.drawable.ic_meter_24
+                MeasurementMode.SURFACE_AREA -> R.drawable.ic_foot_24
+            }
+        )
+    }
+    
+    private fun updateDirectionButtonVisibility() {
+        binding.directionButton.isGone = requestResult || mode == MeasurementMode.SURFACE_AREA
+    }
+    
+    private fun updatePolygonControlsVisibility() {
+        binding.polygonControlsContainer.isGone = mode != MeasurementMode.SURFACE_AREA
     }
 
     /* --------------------------------- Scene.OnUpdateListener --------------------------------- */
@@ -316,7 +386,11 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
             updateCursor(hitResult)
 
             if (measureState == MeasureState.READY) {
-                setTrackingMessage(R.string.ar_core_tracking_hint_tap_to_measure)
+                val hintResId = when (mode) {
+                    MeasurementMode.DISTANCE -> R.string.ar_core_tracking_hint_tap_to_measure
+                    MeasurementMode.SURFACE_AREA -> R.string.ar_core_tracking_hint_tap_to_add_point
+                }
+                setTrackingMessage(hintResId)
             }
         } else {
             /* when no plane can be found at the cursor position and the camera angle is
@@ -410,18 +484,25 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
     /* ---------------------------------------- Measuring --------------------------------------- */
 
     private fun onTapPlane() {
-        when (measureState) {
-            MeasureState.READY -> {
-                startMeasuring()
+        when (mode) {
+            MeasurementMode.DISTANCE -> {
+                when (measureState) {
+                    MeasureState.READY -> {
+                        startMeasuring()
+                    }
+                    MeasureState.MEASURING -> {
+                        measuringDone()
+                    }
+                    MeasureState.DONE -> {
+                        /* different behavior: When caller requests result, tapping again doesn't clear the
+                         * result, instead the user needs to tap on the "start over" button, like when
+                         * taking a picture with the camera */
+                        if (!requestResult) clearMeasuring() else continueMeasuring()
+                    }
+                }
             }
-            MeasureState.MEASURING -> {
-                measuringDone()
-            }
-            MeasureState.DONE -> {
-                /* different behavior: When caller requests result, tapping again doesn't clear the
-                 * result, instead the user needs to tap on the "start over" button, like when
-                 * taking a picture with the camera */
-                if (!requestResult) clearMeasuring() else continueMeasuring()
+            MeasurementMode.SURFACE_AREA -> {
+                handlePolygonTap()
             }
         }
     }
@@ -429,10 +510,14 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
     private suspend fun initRenderables() {
         // takes about half a second on a high-end device(!)
         val materialBlue = MaterialFactory.makeOpaqueWithColor(this, Color(measuringTapeColor)).await()
+        val materialBlueTranslucent = MaterialFactory.makeTransparentWithColor(this, Color(0.3f, 0.3f, 0.3f, 0.3f)).await()
+        
         cursorRenderable = ViewRenderable.builder().setView(this, R.layout.view_ar_cursor).build().await()
         pointRenderable = ShapeFactory.makeCylinder(0.03f, 0.005f, Vector3.zero(), materialBlue)
         lineRenderable = ShapeFactory.makeCube(Vector3(0.02f, 0.005f, 1f), Vector3.zero(), materialBlue)
-        listOfNotNull(cursorRenderable, pointRenderable, lineRenderable).forEach {
+        polygonFillRenderable = ShapeFactory.makeCube(Vector3(1f, 0.001f, 1f), Vector3.zero(), materialBlueTranslucent)
+        
+        listOfNotNull(cursorRenderable, pointRenderable, lineRenderable, polygonFillRenderable).forEach {
             it.isShadowCaster = false
             it.isShadowReceiver = false
         }
@@ -441,6 +526,7 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
         firstNode?.renderable = pointRenderable
         secondNode?.renderable = pointRenderable
         lineNode?.renderable = lineRenderable
+        polygonFillNode?.renderable = polygonFillRenderable
     }
 
     private fun startMeasuring() {
@@ -496,22 +582,69 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
         secondNode = null
         lineNode?.setParent(null)
         lineNode = null
+        
+        // Also clear polygon visualization if in surface area mode
+        if (mode == MeasurementMode.SURFACE_AREA) {
+            clearPolygonVisualization()
+        }
     }
 
     private fun returnMeasuringResult() {
         val resultIntent = Intent(RESULT_ACTION)
-        when (val displayUnit = displayUnit) {
-            is MeasureDisplayUnitFeetInch -> {
-                val (feet, inches) = displayUnit.getRounded(distance)
-                resultIntent.putExtra(RESULT_FEET, feet)
-                resultIntent.putExtra(RESULT_INCHES, inches)
+        
+        when (mode) {
+            MeasurementMode.DISTANCE -> {
+                // Existing distance measurement behavior
+                resultIntent.putExtra(RESULT_TYPE, "distance")
+                when (val displayUnit = displayUnit) {
+                    is MeasureDisplayUnitFeetInch -> {
+                        val (feet, inches) = displayUnit.getRounded(distance)
+                        resultIntent.putExtra(RESULT_FEET, feet)
+                        resultIntent.putExtra(RESULT_INCHES, inches)
+                    }
+                    is MeasureDisplayUnitMeter -> {
+                        resultIntent.putExtra(RESULT_METERS, displayUnit.getRounded(distance))
+                    }
+                }
             }
-            is MeasureDisplayUnitMeter -> {
-                resultIntent.putExtra(RESULT_METERS, displayUnit.getRounded(distance))
+            MeasurementMode.SURFACE_AREA -> {
+                // New polygon area measurement behavior
+                finishPolygonResult(resultIntent)
             }
         }
+        
         setResult(RESULT_OK, resultIntent)
         finish()
+    }
+    
+    private fun finishPolygon() {
+        if (polygonState.anchors.size < 3) {
+            Toast.makeText(this, R.string.polygon_need_three_points, Toast.LENGTH_SHORT).show()
+            return
+        }
+        
+        val resultIntent = Intent(RESULT_ACTION)
+        finishPolygonResult(resultIntent)
+        setResult(RESULT_OK, resultIntent)
+        finish()
+    }
+    
+    private fun finishPolygonResult(resultIntent: Intent) {
+        // TileVision integration: caller will use areaSqFeet to estimate tile quantity.
+        resultIntent.putExtra(RESULT_TYPE, "polygon")
+        resultIntent.putExtra(RESULT_AREA_SQ_METERS, polygonState.areaSqMeters())
+        resultIntent.putExtra(RESULT_AREA_SQ_FEET, polygonState.areaSqFeet())
+        
+        // Add vertex coordinates
+        val vertices = polygonState.vertexWorldPoses()
+        resultIntent.putExtra(RESULT_VERTICES_COUNT, vertices.size)
+        
+        vertices.forEachIndexed { index, pose ->
+            val translation = pose.translation
+            resultIntent.putExtra("${RESULT_VERTEX_PREFIX}${index}_x", translation[0])
+            resultIntent.putExtra("${RESULT_VERTEX_PREFIX}${index}_y", translation[1])
+            resultIntent.putExtra("${RESULT_VERTEX_PREFIX}${index}_z", translation[2])
+        }
     }
 
     private fun updateCursor(hitResult: HitResult) {
@@ -582,6 +715,185 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
 
     private fun updateMeasurementTextView() {
         binding.measurementTextView.text = displayUnit.format(distance)
+    }
+    
+    private fun updatePolygonAreaDisplay() {
+        updateAreaOverlay()
+        updatePolygonVisualization()
+    }
+    
+    private fun updateAreaOverlay() {
+        val n = polygonState.anchors.size
+        if (n < 3) {
+            binding.measurementTextView.text = "Add at least 3 points"
+            binding.measurementSpeechBubble.isInvisible = false
+        } else {
+            val ft2 = polygonState.areaSqFeet()
+            binding.measurementTextView.text = String.format("%.1f ft²", ft2)
+            binding.measurementSpeechBubble.isInvisible = false
+        }
+    }
+    
+    private fun updatePolygonVisualization() {
+        clearPolygonVisualization()
+        
+        val anchors = polygonState.anchors
+        if (anchors.isEmpty()) return
+        
+        // Create point nodes for each anchor
+        anchors.forEach { anchor ->
+            val pointNode = AnchorNode().apply {
+                renderable = pointRenderable
+                setParent(arSceneView!!.scene)
+                setAnchor(anchor)
+            }
+            polygonPointNodes.add(pointNode)
+        }
+        
+        // Create line segments between consecutive anchors
+        for (i in anchors.indices) {
+            val currentAnchor = anchors[i]
+            val nextAnchor = anchors[(i + 1) % anchors.size]
+            
+            val lineNode = Node().apply {
+                renderable = lineRenderable
+                setParent(arSceneView!!.scene)
+            }
+            
+            // Calculate line position and orientation between the two anchor poses
+            val pos1 = currentAnchor.pose.position
+            val pos2 = nextAnchor.pose.position
+            val difference = Vector3.subtract(pos1, pos2)
+            val distance = difference.length()
+            
+            // Position line at midpoint
+            lineNode.worldPosition = Vector3.add(pos1, pos2).scaled(0.5f)
+            
+            // Orient line along the difference vector, using plane normal as up vector
+            val plane = polygonState.plane
+            val up = if (plane != null) {
+                val planeNormal = plane.centerPose.getYAxis()
+                Vector3(planeNormal[0], planeNormal[1], planeNormal[2])
+            } else {
+                Vector3.up()
+            }
+            
+            lineNode.worldRotation = Quaternion.lookRotation(difference, up)
+            lineNode.localScale = Vector3(1f, 1f, distance)
+            
+            polygonLineNodes.add(lineNode)
+        }
+        
+        // Create filled polygon if we have 3+ points
+        if (anchors.size >= 3) {
+            createPolygonFill()
+        }
+    }
+    
+    private fun createPolygonFill() {
+        val plane = polygonState.plane ?: return
+        val anchors = polygonState.anchors
+        
+        // Project polygon vertices to 2D plane coordinates (same as area calculation)
+        val planePose = plane.centerPose
+        val basisX = planePose.getXAxis()
+        val basisZ = planePose.getZAxis()
+        
+        val poly2d = mutableListOf<Pair<Float, Float>>()
+        anchors.forEach { anchor ->
+            val wp = anchor.pose.translation
+            val vx = wp[0] - planePose.tx()
+            val vy = wp[1] - planePose.ty()
+            val vz = wp[2] - planePose.tz()
+            val u = vx * basisX[0] + vy * basisX[1] + vz * basisX[2]
+            val v = vx * basisZ[0] + vy * basisZ[1] + vz * basisZ[2]
+            poly2d.add(u to v)
+        }
+        
+        // Calculate polygon center and bounds
+        val centerU = poly2d.map { it.first }.average().toFloat()
+        val centerV = poly2d.map { it.second }.average().toFloat()
+        val maxDistance = poly2d.maxOf { sqrt((it.first - centerU).pow(2) + (it.second - centerV).pow(2)) }
+        
+        // Create fill node positioned at polygon center, slightly above the plane
+        val fillNode = Node().apply {
+            renderable = polygonFillRenderable
+            setParent(arSceneView!!.scene)
+        }
+        
+        // Position at polygon center in 3D space
+        val center3D = Vector3(
+            planePose.tx() + centerU * basisX[0] + centerV * basisZ[0],
+            planePose.ty() + centerU * basisX[1] + centerV * basisZ[1],
+            planePose.tz() + centerU * basisX[2] + centerV * basisZ[2]
+        )
+        
+        // Offset slightly above the plane to avoid z-fighting
+        val planeNormal = planePose.getYAxis()
+        val offset = Vector3(
+            planeNormal[0] * 0.002f,
+            planeNormal[1] * 0.002f,
+            planeNormal[2] * 0.002f
+        )
+        
+        fillNode.worldPosition = Vector3.add(center3D, offset)
+        
+        // Scale to cover the polygon area
+        val scale = maxDistance * 2.2f // Add some padding
+        fillNode.localScale = Vector3(scale, 1f, scale)
+        
+        // Orient to match the plane
+        val planeRotation = Quaternion.lookRotation(
+            Vector3(basisX[0], basisX[1], basisX[2]),
+            Vector3(planeNormal[0], planeNormal[1], planeNormal[2])
+        )
+        fillNode.worldRotation = planeRotation
+        
+        polygonFillNode = fillNode
+        
+        // NOTE: This fill is purely visual to show the surface we are about to tile.
+    }
+    
+    private fun clearPolygonVisualization() {
+        // Clear point nodes
+        polygonPointNodes.forEach { node ->
+            node.anchor?.detach()
+            node.setParent(null)
+        }
+        polygonPointNodes.clear()
+        
+        // Clear line nodes
+        polygonLineNodes.forEach { node ->
+            node.setParent(null)
+        }
+        polygonLineNodes.clear()
+        
+        // Clear fill node
+        polygonFillNode?.setParent(null)
+        polygonFillNode = null
+    }
+    
+    private fun handlePolygonTap() {
+        val frame = arSceneView?.arFrame ?: return
+        val centerX = binding.arSceneViewContainer.width / 2f
+        val centerY = binding.arSceneViewContainer.height / 2f
+        val hitResults = frame.hitTest(centerX, centerY).filter {
+            (it.trackable as? Plane)?.isPoseInPolygon(it.hitPose) == true
+        }
+        
+        val hitResult = hitResults.firstOrNull()
+        if (hitResult != null) {
+            val plane = hitResult.trackable as? Plane ?: return
+            val anchor = hitResult.createAnchor()
+            
+            if (polygonState.addAnchor(anchor, plane)) {
+                updatePolygonAreaDisplay()
+                binding.arSceneViewContainer.performHapticFeedback(VIRTUAL_KEY)
+            } else {
+                Toast.makeText(this, R.string.polygon_different_plane_error, Toast.LENGTH_SHORT).show()
+                anchor.detach()
+            }
+        }
     }
 
     private fun getCursorNode(): AnchorNode {
@@ -672,5 +984,22 @@ class MeasureActivity : AppCompatActivity(), Scene.OnUpdateListener {
 
         /** The result as displayed to the user, set if display unit was feet+inches. Int. */
         const val RESULT_INCHES = "inches"
+        
+        /* ----------------------------------- Polygon Result Constants ----------------------------- */
+        
+        /** The result type identifier - "distance" or "polygon" */
+        const val RESULT_TYPE = "result_type"
+        
+        /** Polygon area in square meters. Float. */
+        const val RESULT_AREA_SQ_METERS = "area_sq_meters"
+        
+        /** Polygon area in square feet. Float. */
+        const val RESULT_AREA_SQ_FEET = "area_sq_feet"
+        
+        /** Number of vertices in the polygon. Int. */
+        const val RESULT_VERTICES_COUNT = "vertices_count"
+        
+        /** Vertex coordinates - format: "vertex_{index}_{x|y|z}". Float. */
+        const val RESULT_VERTEX_PREFIX = "vertex_"
     }
 }
