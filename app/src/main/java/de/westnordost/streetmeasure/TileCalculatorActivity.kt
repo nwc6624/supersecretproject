@@ -1,5 +1,6 @@
 package de.westnordost.streetmeasure
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
@@ -150,6 +151,9 @@ class TileCalculatorActivity : AppCompatActivity() {
         // 6. Update
         tilesNeededText.text = "Tiles Needed: $tilesNeededRoundedUp"
         boxesNeededText.text = "Boxes Needed: $boxesNeededRoundedUp"
+        
+        // 7. Show results popup
+        showResultsDialog(tilesNeededRoundedUp, boxesNeededRoundedUp, areaFt2, tileWidthIn, tileHeightIn, wastePercent)
     }
     
     private fun ceil(x: Float): Float {
@@ -206,5 +210,37 @@ class TileCalculatorActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+    
+    private fun showResultsDialog(tilesNeeded: Int, boxesNeeded: Int, areaFt2: Float, tileWidth: Float, tileHeight: Float, wastePercent: Float) {
+        val message = buildString {
+            append("📐 **Calculation Results**\n\n")
+            append("**Area to Cover:** ${String.format("%.1f", areaFt2)} ft²\n")
+            append("**Tile Size:** ${String.format("%.1f", tileWidth)}\" × ${String.format("%.1f", tileHeight)}\"\n")
+            append("**Waste Allowance:** ${String.format("%.0f", wastePercent)}%\n\n")
+            append("**📊 Results:**\n")
+            append("• **Tiles Needed:** $tilesNeeded\n")
+            if (boxesNeeded > 0) {
+                append("• **Boxes Needed:** $boxesNeeded\n")
+            } else {
+                append("• **Boxes Needed:** Not calculated (no coverage per box specified)\n")
+            }
+            append("\n💡 **Tip:** Always buy a few extra tiles for cutting and future repairs!")
+        }
+        
+        AlertDialog.Builder(this)
+            .setTitle("🎯 Tile Calculation Complete")
+            .setMessage(message)
+            .setPositiveButton("Got it!") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setNeutralButton("Recalculate") { dialog, _ ->
+                dialog.dismiss()
+                // Clear the results to encourage recalculation
+                tilesNeededText.text = "Tiles Needed: --"
+                boxesNeededText.text = "Boxes Needed: --"
+            }
+            .setCancelable(true)
+            .show()
     }
 }
